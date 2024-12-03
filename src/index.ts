@@ -10,34 +10,29 @@ import Data from "./schemas/data";
 import Importmap from "./schemas/importmap";
 import Page, { plainPage } from "./schemas/page";
 
-export interface TLeaf {
-  $children?: TLeaf[];
+export type TPage = FromSchema<typeof plainPage> & {
+  $children?: TPage[];
   $index: number;
-  $next?: TLeaf;
-  $prev?: TLeaf;
-  $siblings: TLeaf[];
-  [key: string]: unknown;
-  branch: TLeaf[];
-  children?: TLeaf[];
-  id: string;
+  $next?: TPage;
+  $prev?: TPage;
+  $siblings: TPage[];
+  branch: TPage[];
+  buffer?: string;
+  children?: TPage[];
+  contenteditable: boolean;
+  html: Promise<string> | string;
+  i: string;
   index: number;
-  next?: TLeaf;
-  parent?: TLeaf;
-  path?: string;
-  prev?: TLeaf;
-  root?: TLeaf;
-  siblings: TLeaf[];
-}
-export type TPage = FromSchema<typeof plainPage> &
-  TLeaf & {
-    buffer?: string;
-    contenteditable: boolean;
-    html: Promise<string> | string;
-    i: string;
-    sfc: Promise<string>;
-    title: string;
-    to: string;
-  };
+  next?: TPage;
+  parent?: TPage;
+  path: string;
+  prev?: TPage;
+  root: TPage;
+  sfc: Promise<string>;
+  siblings: TPage[];
+  title: string;
+  to: string;
+};
 dynamicDefaults.DEFAULTS.uuid = (): (() => string) => () => uuid();
 const useDefaults = true;
 const coerceTypes = true;
