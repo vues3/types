@@ -3,17 +3,12 @@ import type { FromSchema } from "json-schema-to-ts";
 
 import Ajv from "ajv";
 import dynamicDefaults from "ajv-keywords/dist/definitions/dynamicDefaults";
-import Credentials from "app/src/schemas/credentials";
-import Data from "app/src/schemas/data";
-import Importmap from "app/src/schemas/importmap";
-import Page, { plainPage } from "app/src/schemas/page";
-import {
-  coerceTypes,
-  esm,
-  removeAdditional,
-  useDefaults,
-} from "app/src/stores/defaults";
 import uuid from "uuid-random";
+
+import Credentials from "./schemas/credentials";
+import Data from "./schemas/data";
+import Importmap from "./schemas/importmap";
+import Page, { plainPage } from "./schemas/page";
 
 export type TPage = FromSchema<typeof plainPage> & {
   $children?: TPage[];
@@ -39,6 +34,10 @@ export type TPage = FromSchema<typeof plainPage> & {
   to: string;
 };
 dynamicDefaults.DEFAULTS.uuid = (): (() => string) => () => uuid();
+const useDefaults = true;
+const coerceTypes = true;
+const esm = true;
+const removeAdditional = true;
 const code = { esm };
 export type TCredentials = FromSchema<typeof Credentials>;
 export type TImportmap = FromSchema<typeof Importmap>;
